@@ -8,9 +8,13 @@
 
 #import "AddViewController.h"
 #import "Libro.h"
+#import "BaseCell.h"
 
 @interface AddViewController (){
     NSMutableString *prevPlaceHolder;
+    Libro *newLibro;
+    NSArray *libroArray;
+    NSArray *propertiesNames;
 }
 
 @end
@@ -22,82 +26,42 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         CGRect schermo=[[UIScreen mainScreen] bounds];
+        newLibro=[[Libro alloc]init];
+        libroArray=[[NSArray alloc]initWithObjects:@"Titolo",@"Autore",@"Editore",@"Anno Pubblicazione", nil];
+        propertiesNames=[[NSArray alloc]initWithArray:[newLibro getAllPropertyNames]];
+
+        //TableView
+        self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, schermo.size.width, schermo.size.height) style:UITableViewStyleGrouped];
+        self.tableView.delegate=self;
+        self.tableView.dataSource=self;
+        [self.view addSubview:self.tableView];
+        //Gesture Recognizer
         self.tapRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                       action:@selector(tapRecognized:)];
+                                                                   action:@selector(tapRecognized:)];
         [self.view addGestureRecognizer:self.tapRecognizer];
-        
-        UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 45, 50, 20)];
-        titleLabel.text=@"Titolo:";
-        [self.view addSubview:titleLabel];
-        
-        self.titoloText=[[UITextField alloc]initWithFrame:CGRectMake(100, 45, 200, 30)];
-        self.titoloText.borderStyle=UITextBorderStyleRoundedRect;
-//        self.titoloText.placeholder=@"titolo libro...";
-        self.titoloText.delegate=self;
-        [self.view addSubview:self.titoloText];
-        
-        
-        UILabel *autoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 85, 70, 20)];
-        autoreLabel.text=@"Autore:";
-        [self.view addSubview:autoreLabel];
-        
-        self.autoreText=[[UITextField alloc]initWithFrame:CGRectMake(100, 85, 200, 30)];
-        self.autoreText.borderStyle=UITextBorderStyleRoundedRect;
-//        self.autoreText.placeholder=@"autore libro...";
-        self.autoreText.delegate=self;
-        [self.view addSubview:self.autoreText];
-        
-        
-        UILabel *editoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(20,125, 70, 20)];
-        editoreLabel.text=@"Editore:";
-        [self.view addSubview:editoreLabel];
-        
-        self.editoreText=[[UITextField alloc]initWithFrame:CGRectMake(100,125, 200, 30)];
-        self.editoreText.borderStyle=UITextBorderStyleRoundedRect;
-//        self.editoreText.placeholder=@"editore libro...";
-        self.editoreText.delegate=self;
-        [self.view addSubview:self.editoreText];
-        
-        UILabel *annoLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 165, 70, 20)];
-        annoLabel.text=@"Anno:";
-        [self.view addSubview:annoLabel];
-        
-        self.annoText=[[UITextField alloc]initWithFrame:CGRectMake(200, 165, 100, 30)];
-        self.annoText.borderStyle=UITextBorderStyleRoundedRect;
-//        self.annoText.placeholder=@"anno...";
-        self.annoText.delegate=self;
-        self.annoText.tag=3;
-        self.annoText.keyboardType=UIKeyboardTypeNumberPad;
-        [self.view addSubview:self.annoText];
-        
-        
+
+        //NavigationBar Buttons
         UIButton *aggiungiButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
         aggiungiButton.frame=CGRectMake((schermo.size.width-100)/2, 220, 100, 50);
         [aggiungiButton addTarget:self
                            action:@selector(addButtonTapped:)
                  forControlEvents:UIControlEventTouchUpInside];
         [aggiungiButton setTitle:@"Aggiungi" forState:UIControlStateNormal];
-        [self.view addSubview:aggiungiButton];
-        [self initializeControls];
+    //    [self.view addSubview:aggiungiButton];
+        
     }
     return self;
-}
-
--(void)initializeControls{
-    self.titoloText.text=@"";
-    self.autoreText.text=@"";
-    self.editoreText.text=@"";
-    self.annoText.text=@"";
-    self.titoloText.placeholder=@"titolo libro...";
-    self.autoreText.placeholder=@"autore libro...";
-    self.editoreText.placeholder=@"editore libro...";
-    self.annoText.placeholder=@"anno...";
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // Mi registro al notification center per ricevere il messaggio di fine edit UITextField
+    [[NSNotificationCenter defaultCenter]
+	 addObserver:self
+	 selector:@selector(cellControlDidEndEditing:)
+	 name:CELL_ENDEDIT_NOTIFICATION_NAME
+	 object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,23 +77,75 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - NotificationCenter
+
+-(void)cellControlDidEndEditing:(NSNotification *)notification
+{
+    NSIndexPath *cellIndex = (NSIndexPath *)[notification object];
+    NSLog(@"CellIndex=%d",cellIndex.row);
+	BaseCell *cell = (BaseCell *)[self.tableView cellForRowAtIndexPath:cellIndex];
+	if(cell != nil)
+	{
+        if(cell.dataKey!=@"annoPubblicazione"){
+            [newLibro setValue:[cell getControlValue] forKey:cell.dataKey];
+        }else{
+            NSNumberFormatter *f=[[NSNumberFormatter alloc]init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            [newLibro setValue:[f numberFromString:[cell getControlValue]] forKey:cell.dataKey];
+        }
+		NSLog(@"L'utente ha digitato %@ per la datakey %@",  [cell getControlValue], cell.dataKey);
+	}
+}
+
+
+#pragma mark - UITableViewDelegate
+
+#pragma mark - UITableViewDataSourceDelegate
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"Cell";
+    
+    NSString *cellType;
+    
+    if ([[propertiesNames objectAtIndex:indexPath.row+1] isEqual:@"annoPubblicazione"] ){
+        cellType = @"YearDataEntryCell";
+    }else{
+        cellType = @"TextDataEntryCell";
+    }
+    NSLog(@"CellType=%@",cellType);
+	BaseCell *cell = (BaseCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
+	if (cell == nil) {
+        
+        cell = [[NSClassFromString(cellType) alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    cell.dataKey=[propertiesNames objectAtIndex:indexPath.row+1];
+	cell.textLabel.text = [libroArray objectAtIndex:indexPath.row];
+    NSLog(@"Altezza: %f",cell.frame.size.height);
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [libroArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row==3){
+        return 250;
+    }else{
+        return 44;
+    }
+ 
+}
+
 #pragma mark - UIButton
 -(void) addButtonTapped:(id)sender{
+    [newLibro aggiungi:newLibro];
     
-    Libro *myLibro=[[Libro alloc]init];
-    myLibro.titolo=self.titoloText.text;
-    myLibro.autore=self.autoreText.text;
-    myLibro.editore=self.editoreText.text;
-    myLibro.annoPubblicazione=[self.annoText.text intValue];
-    [myLibro aggiungi:myLibro];
     UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"Fatto" message:@"Libro aggiunto con successo!"
                                              delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [av show];
-    [self initializeControls];
 }
 
 #pragma mark - UITextFieldDelegate
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     prevPlaceHolder=[NSMutableString stringWithFormat:@"%@", textField.placeholder];
     textField.placeholder=@"";

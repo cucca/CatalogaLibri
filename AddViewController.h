@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate>
+@interface AddViewController : UIViewController <UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,retain) IBOutlet UITextField *titoloText;
 @property (nonatomic,retain) IBOutlet UITextField *autoreText;
 @property (nonatomic,retain) IBOutlet UITextField *editoreText;
 @property (nonatomic,retain) IBOutlet UITextField *annoText;
 @property (nonatomic,retain) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic,retain) IBOutlet UITableView *tableView;
+
 @end

@@ -18,6 +18,9 @@
 		89364B1B16870F36005DD8C6 /* Libro.m in Sources */ = {isa = PBXBuildFile; fileRef = 89364B1A16870F36005DD8C6 /* Libro.m */; };
 		89364B2B168716A9005DD8C6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89364B29168716A9005DD8C6 /* MainViewController.m */; };
 		89364B2C168716A9005DD8C6 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89364B2A168716A9005DD8C6 /* MainView.xib */; };
+		895AFDA01696D6CF002D61D7 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895AFD9F1696D6CF002D61D7 /* BaseCell.m */; };
+		895AFDA31696D713002D61D7 /* TextDataEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895AFDA21696D713002D61D7 /* TextDataEntryCell.m */; };
+		89C8483C1696F7AD00AA348F /* YearDataEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C8483B1696F7AD00AA348F /* YearDataEntryCell.m */; };
 		89E56D8716907BAD00E23022 /* ViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E56D8516907BAD00E23022 /* ViewViewController.m */; };
 		89E56D8816907BAD00E23022 /* ViewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E56D8616907BAD00E23022 /* ViewView.xib */; };
 		89F89CD6168F0724002B03B6 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F89CD4168F0724002B03B6 /* AddViewController.m */; };
@@ -42,6 +45,12 @@
 		89364B28168716A9005DD8C6 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		89364B29168716A9005DD8C6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		89364B2A168716A9005DD8C6 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
+		895AFD9E1696D6CF002D61D7 /* BaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
+		895AFD9F1696D6CF002D61D7 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
+		895AFDA11696D713002D61D7 /* TextDataEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDataEntryCell.h; sourceTree = "<group>"; };
+		895AFDA21696D713002D61D7 /* TextDataEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextDataEntryCell.m; sourceTree = "<group>"; };
+		89C8483A1696F7AD00AA348F /* YearDataEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearDataEntryCell.h; sourceTree = "<group>"; };
+		89C8483B1696F7AD00AA348F /* YearDataEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearDataEntryCell.m; sourceTree = "<group>"; };
 		89E56D8416907BAD00E23022 /* ViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewViewController.h; sourceTree = "<group>"; };
 		89E56D8516907BAD00E23022 /* ViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewViewController.m; sourceTree = "<group>"; };
 		89E56D8616907BAD00E23022 /* ViewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewView.xib; sourceTree = "<group>"; };
@@ -67,16 +76,8 @@
 		89364AEC16870F0B005DD8C6 = {
 			isa = PBXGroup;
 			children = (
-				89E56D8416907BAD00E23022 /* ViewViewController.h */,
-				89E56D8516907BAD00E23022 /* ViewViewController.m */,
-				89E56D8616907BAD00E23022 /* ViewView.xib */,
-				89F89CD3168F0724002B03B6 /* AddViewController.h */,
-				89F89CD4168F0724002B03B6 /* AddViewController.m */,
-				89F89CD5168F0724002B03B6 /* AddView.xib */,
-				89364B28168716A9005DD8C6 /* MainViewController.h */,
-				89364B29168716A9005DD8C6 /* MainViewController.m */,
-				89364B2A168716A9005DD8C6 /* MainView.xib */,
-				89364B1816870F19005DD8C6 /* Classes */,
+				895AFD9C1696D675002D61D7 /* Nibs */,
+				895AFD9A1696D657002D61D7 /* Classes */,
 				89364B0116870F0B005DD8C6 /* CatalogaLibri */,
 				89364AFA16870F0B005DD8C6 /* Frameworks */,
 				89364AF816870F0B005DD8C6 /* Products */,
@@ -124,13 +125,43 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		89364B1816870F19005DD8C6 /* Classes */ = {
+		895AFD9A1696D657002D61D7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				895AFD9D1696D695002D61D7 /* CustomCells */,
+				89364B28168716A9005DD8C6 /* MainViewController.h */,
+				89364B29168716A9005DD8C6 /* MainViewController.m */,
+				89F89CD3168F0724002B03B6 /* AddViewController.h */,
+				89F89CD4168F0724002B03B6 /* AddViewController.m */,
+				89E56D8416907BAD00E23022 /* ViewViewController.h */,
+				89E56D8516907BAD00E23022 /* ViewViewController.m */,
 				89364B1916870F36005DD8C6 /* Libro.h */,
 				89364B1A16870F36005DD8C6 /* Libro.m */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		895AFD9C1696D675002D61D7 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				89E56D8616907BAD00E23022 /* ViewView.xib */,
+				89F89CD5168F0724002B03B6 /* AddView.xib */,
+				89364B2A168716A9005DD8C6 /* MainView.xib */,
+			);
+			name = Nibs;
+			sourceTree = "<group>";
+		};
+		895AFD9D1696D695002D61D7 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				895AFD9E1696D6CF002D61D7 /* BaseCell.h */,
+				895AFD9F1696D6CF002D61D7 /* BaseCell.m */,
+				895AFDA11696D713002D61D7 /* TextDataEntryCell.h */,
+				895AFDA21696D713002D61D7 /* TextDataEntryCell.m */,
+				89C8483A1696F7AD00AA348F /* YearDataEntryCell.h */,
+				89C8483B1696F7AD00AA348F /* YearDataEntryCell.m */,
+			);
+			name = CustomCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +237,9 @@
 				89364B2B168716A9005DD8C6 /* MainViewController.m in Sources */,
 				89F89CD6168F0724002B03B6 /* AddViewController.m in Sources */,
 				89E56D8716907BAD00E23022 /* ViewViewController.m in Sources */,
+				895AFDA01696D6CF002D61D7 /* BaseCell.m in Sources */,
+				895AFDA31696D713002D61D7 /* TextDataEntryCell.m in Sources */,
+				89C8483C1696F7AD00AA348F /* YearDataEntryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

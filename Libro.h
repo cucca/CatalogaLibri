@@ -8,6 +8,7 @@
 
 #define kFileName   @"libri.plist"
 
+#import <objc/runtime.h>
 #import <Foundation/Foundation.h>
 
 @interface Libro : NSObject <NSCoding>
@@ -21,7 +22,7 @@
 -(void)cancella:(NSInteger)idLibro;
 -(void)aggiorna:(NSInteger)idLibro libroAggiornato:(Libro *)libro;
 -(void)scriviTuttiLibri:(NSArray *)libri;
-
+- (NSArray *)getAllPropertyNames;
 +(NSArray *)elencoLibri;
 +(NSString *)dataFilePath;
 @end
